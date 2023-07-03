@@ -1,0 +1,42 @@
+protected void PopulateEndDate()
+{
+    // Retrieve the selected start date and day values
+    DateTime startDate = DateTime.Parse(startDateTextBox.Text);
+    int day = int.Parse(dayTextBox.Text);
+
+    // Calculate the end date based on the start date and day
+    DateTime endDate = startDate.AddDays(day);
+
+    // Retrieve the maximum end date from the services
+    DateTime maxEndDate = DateTime.MinValue;
+
+    // Assuming you have a list of services called 'servicesList'
+    if (servicesList.Count > 0)
+    {
+        foreach (var service in servicesList)
+        {
+            DateTime serviceEndDate = service.EndDate;
+
+            // Update the maximum end date if the service end date is greater
+            if (serviceEndDate > maxEndDate)
+            {
+                maxEndDate = serviceEndDate;
+            }
+        }
+    }
+    else
+    {
+        // Set the maximum end date as the calculated end date for single service
+        maxEndDate = endDate;
+    }
+
+    // Compare the calculated end date with the maximum end date
+    if (maxEndDate > endDate)
+    {
+        endDateTextBox.Text = maxEndDate.ToString("yyyy-MM-dd");
+    }
+    else
+    {
+        endDateTextBox.Text = endDate.ToString("yyyy-MM-dd");
+    }
+}
