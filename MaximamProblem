@@ -40,3 +40,64 @@ protected void PopulateEndDate()
         endDateTextBox.Text = endDate.ToString("yyyy-MM-dd");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function calculateEndDate() {
+  var startDateInput = document.getElementById("startDate");
+  var dayInput = document.getElementById("day");
+  var endDateInput = document.getElementById("endDate");
+
+  // Parse the values to Date objects
+  var startDate = new Date(startDateInput.value);
+  var day = parseInt(dayInput.value);
+
+  // Calculate the end date
+  var endDate = new Date(startDate.getTime() + day * 24 * 60 * 60 * 1000);
+
+  // Update the End Date field
+  endDateInput.value = endDate.toISOString().split("T")[0];
+}
+
+function findMaximumEndDate() {
+  var startDateInputs = document.querySelectorAll("input[id^='startDate']");
+  var dayInputs = document.querySelectorAll("input[id^='day']");
+  var endDateInput = document.getElementById("endDate");
+
+  var maxEndDate = new Date();
+
+  for (var i = 0; i < startDateInputs.length; i++) {
+    var startDate = new Date(startDateInputs[i].value);
+    var day = parseInt(dayInputs[i].value);
+    var endDate = new Date(startDate.getTime() + day * 24 * 60 * 60 * 1000);
+
+    if (endDate > maxEndDate) {
+      maxEndDate = endDate;
+    }
+  }
+
+  // Update the End Date field with the maximum end date
+  endDateInput.value = maxEndDate.toISOString().split("T")[0];
+}
+
+// Call the functions when the Start Date or Day fields change
+document.getElementById("startDate").addEventListener("change", calculateEndDate);
+document.getElementById("day").addEventListener("change", calculateEndDate);
+
+// Call the function to find the maximum end date when needed
+findMaximumEndDate();
