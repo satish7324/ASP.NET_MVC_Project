@@ -1,0 +1,62 @@
+protected void GetPackageDetails()
+{
+    if (DtPakageTraivalDetails.Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(DtPakageTraivalDetails.Rows[0]["EndDate"])) && dtpakage.Travaildetails.Rows[0]["EndDaye"] != null)
+    {
+        // Retrieve the maximum EndDate from the services
+        DateTime maxEndDate = DateTime.MinValue;
+        foreach (DataRow row in dtpakage.Travaildetails.Rows)
+        {
+            DateTime endDate = Convert.ToDateTime(row["EndDate"]);
+            if (endDate > maxEndDate)
+            {
+                maxEndDate = endDate;
+            }
+        }
+
+        // Set the default value for return services using the maximum EndDate
+        // Replace this code with the logic to set the default value in the return services section
+        // Example:
+        returnServicesEndDateTextBox.Text = maxEndDate.ToString("yyyy-MM-dd");
+    }
+}
+
+
+
+protected void GetPackageDetails()
+{
+    if (DtPakageTraivalDetails.Rows.Count > 0 && !string.IsNullOrEmpty(Convert.ToString(DtPakageTraivalDetails.Rows[0]["EndDate"])) && dtpakage.Travaildetails.Rows[0]["EndDaye"] != null)
+    {
+        // Retrieve the maximum EndDate from the services
+        DateTime maxEndDate = DateTime.MinValue;
+        foreach (DataRow row in dtpakage.Travaildetails.Rows)
+        {
+            DateTime endDate = Convert.ToDateTime(row["EndDate"]);
+            if (endDate > maxEndDate)
+            {
+                maxEndDate = endDate;
+            }
+        }
+
+        // Convert the maximum EndDate to a JavaScript date string
+        string jsMaxEndDate = maxEndDate.ToString("yyyy-MM-dd");
+
+        // Generate JavaScript code to set the default value for the return services
+        string script = "<script>setDefaultEndDate('" + jsMaxEndDate + "');</script>";
+
+        // Register the JavaScript code to be executed on the client-side
+        ClientScript.RegisterStartupScript(GetType(), "SetDefaultEndDate", script);
+    }
+}
+
+
+function setDefaultEndDate() {
+  // Get the values of StartDate and Day fields
+  var startDateValue = new Date(document.getElementById("StartDate").value);
+  var dayValue = parseInt(document.getElementById("Day").value);
+
+  // Calculate the EndDate based on StartDate and Day
+  var endDate = new Date(startDateValue.getTime() + dayValue * 24 * 60 * 60 * 1000);
+
+  // Set the value of the return date field
+  document.getElementById("ReturnDate").value = endDate.toISOString().substring(0, 10);
+}
